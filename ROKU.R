@@ -1,7 +1,9 @@
-# 2013-09-10
+# Copyright (c) 2013, Kevin Ha
+# University of Toronto
 #
 # Implementation of "ROKU: a novel method for identification of tissue-specific genes"
 # from Kadota et al., BMC Bioinformatics, 2006
+# http://www.biomedcentral.com/1471-2105/7/294
 #
 # General steps:
 # 1) Process each vector: x -> x' using Tukey Biweight
@@ -10,7 +12,6 @@
 library(entropy)
 library(affy)
 library(parallel)
-
 
 preprocess_with_tukey <- function(x) {
   # Step 1 of ROKU
