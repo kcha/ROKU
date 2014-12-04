@@ -1,8 +1,15 @@
 Package: ROKU
-Title: What the package does (short line)
+Title: ROKU - a method for identification of tissue-specific genes
 Version: 0.1
-Authors@R: "First Last <first.last@example.com> [aut, cre]"
-Description: What the package does (paragraph)
-Depends: R (>= 3.1.1)
+Authors@R: "Kevin Ha <k.ha@mail.utoronto.ca> [aut]"
+Description: My R implementation of ROKU, based on the method described in
+    Kadota et al., BMC Bioinformatics, 2006.
+Depends: R (>= 3.0.1)
 License: What license is it under?
 LazyData: true
+URL: https://github.com/kcha/ROKU
+Imports:
+    entropy,
+    affy,
+    parallel
+
