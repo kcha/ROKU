@@ -2,7 +2,9 @@
 
 export(ROKU)
 export(ROKU_as_df)
+export(filter_outliers)
 export(find_tissue_outliers)
+export(preprocess_with_tukey)
 export(u_statistic)
 import(entropy)
 importFrom(affy,tukey.biweight)

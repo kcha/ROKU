@@ -7,6 +7,7 @@
 #' or tissues
 #' @return A transformed vector of length \emph{m}
 #' @importFrom affy tukey.biweight
+#' @export
 preprocess_with_tukey <- function(x) {
   # Step 1 of ROKU
   tu <- tukey.biweight(x[!is.na(x)])
