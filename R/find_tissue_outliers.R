@@ -1,3 +1,26 @@
+#' Find over- or under-expressed tissue-specific genes
+#' 
+#' The third step in ROKU algorithm. Identify tissue-specific outliers.
+#' 
+#' @details
+#' See the \href{http://www.biomedcentral.com/1471-2105/7/294#sec4}{Methods} from the manuscript for more details.
+#' 
+#' Identifiers over- or under-expressed tissue-specific genes using
+#' the formula from \href{http://www.ncbi.nlm.nih.gov/pubmed/12499447}{Kadota et al. (2003)}
+#' 
+#' \deqn{U = n\log{\sigma} + \sqrt{2} \times s \times \frac{\log{n!}}{n}}
+#' 
+#' where \emph{n} and \emph{s} denote the numbers of non-outlier and outlier candidates, and \eqn{\sigma} denotes the standard deviation of the observations of the \emph{n} non-outlier candidates.
+#' 
+#' The combination of outliers that where \emph{U} is minimized is returned.
+#' 
+#' If no outliers are found, then k-means clustering is performed to cluster
+#' the expression values.
+#' 
+#' @param x a vector of expression values
+#' @param epsilon a very small number for offsetting zero values
+#' @return a binary vector representing the ouliers (1) and non-outliers (0)
+#' @export
 find_tissue_outliers <- function(x, epsilon=1e-04) {
   # Step 3 of ROKU - finding tissue outliers
   best.model <- list(Model=rep(0, length(x)), Outlier.Detection.Method=NA)
@@ -25,7 +48,7 @@ find_tissue_outliers <- function(x, epsilon=1e-04) {
   
   U <- rep(NA, length(outlier.models))
   for (i in 1:length(U)) {
-    U[i] <- U.statistic(z[ord], outlier.models[[i]])
+    U[i] <- u_statistic(z[ord], outlier.models[[i]])
   }
   
   #   print(outlier.models)

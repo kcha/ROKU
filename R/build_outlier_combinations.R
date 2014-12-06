@@ -1,4 +1,15 @@
-
+#'  Build outlier combinations
+#'  
+#'  Build all possible combinations of over- and under-expressed outliers.
+#'  
+#'  @details
+#'  Generate all possible combinations of outliers, starting from the top and
+#'  bottom of the sorted input.
+#'  
+#'  @param z a vector of sorted z-scores
+#'  @seealso \code{\link{find_tissue_outliers}}
+#'  @return a list of binary vectors. Each vector represents an outlier model 
+#'  where outliers are denoted by 1, otherwise 0.
 build_outlier_combinations <- function(z) {
   obs <- list()
   n <- length(z)

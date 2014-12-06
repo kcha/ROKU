@@ -1,22 +1,29 @@
-# Copyright (c) 2013, Kevin Ha
-# University of Toronto
-#
-# Implementation of "ROKU: a novel method for identification of tissue-specific genes"
-# from Kadota et al., BMC Bioinformatics, 2006
-# http://www.biomedcentral.com/1471-2105/7/294
-#
-# General steps:
-# 1) Process each vector: x -> x' using Tukey Biweight
-# 2) Calculate entropy: H(x')
-# 3) Assign tissues detected as outliers using AIC
-library(entropy)
-library(affy)
-library(parallel)
-
-
-ROKU <- function(m, cores=8) {
-  if (nrow(m) < 10) cores <- 2
-  
+#' ROKU
+#' 
+#' A method for identification of tissue-specific genes
+#' 
+#' @details
+#' See the \href{http://www.biomedcentral.com/1471-2105/7/294#sec4}{Methods} from the manuscript for more details.
+#' 
+#' General steps:
+#' \enumerate{
+#'  \item Process each vector: x -> x' using Tukey Biweight
+#'  \item Calculate entropy: H(x')
+#'  \item Assign tissues detected as outliers using AIC
+#'  }
+#' @param m a \emph{n} by \emph{m} data frame where \emph{n} is the number of genes
+#' and \emph{m} is the number of samples/tissues
+#' @param cores number of cores to use for parallel processing. Default is 1. 
+#' @return List:
+#' \itemize{
+#'  \item{entropy}{} 
+#'  \item{entropy.pct}{}
+#'  \item{outliers}{}
+#' }
+#' @importFrom parallel mclapply
+#' @import entropy
+#' @export
+ROKU <- function(m, cores=1) {
   # pre-process
   m <- as.matrix(m)
   x.prime <- mclapply(1:nrow(m), function(i) preprocess_with_tukey(m[i,]), 
@@ -30,7 +37,7 @@ ROKU <- function(m, cores=8) {
   H.pct <- H / log2(rowSums(!is.na(m)))
  
   # find outliers
-  O <- mclapply(x.prime, function(i) find_tissue_outliers(abs(i)), mc.cores=cores)
+  O <- mclapply(x, function(i) find_tissue_outliers(abs(i)), mc.cores=cores)
   M <- do.call("rbind", lapply(O, "[[", 1))
   M2 <- do.call("rbind", lapply(O, "[[", 2))
   dimnames(M) <- list(rownames(m), colnames(m))
@@ -46,6 +53,14 @@ ROKU <- function(m, cores=8) {
 
 ROKU.2 <- function(m, cores) {
 #   m <- as.matrix(m)
+  ROKU.run <- function(x) {
+    #   x <- t(x)
+    x.prime <- preprocess_with_tukey(x)
+    H <- entropy(x.prime[!is.na(x.prime)], unit="log2")
+    O <- find_tissue_outliers(t(x))
+    values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), O*x.prime)
+    return(values)
+  }  
   
   R <- mclapply(1:nrow(m), function(i) ROKU.run(m[i,]), mc.cores=cores)
   R <- do.call("rbind", R)
@@ -55,21 +70,12 @@ ROKU.2 <- function(m, cores) {
   return(R)
 }
 
-ROKU.run <- function(x) {
-#   x <- t(x)
-  x.prime <- preprocess_with_tukey(x)
-  H <- entropy(x.prime[!is.na(x.prime)], unit="log2")
-  O <- find_tissue_outliers(t(x))
-  values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), O*x.prime)
-  return(values)
-}
-
-ROKU.post_filter.index <- function(df, minDiff=15) {
-  t <- which(rowSums(df > minDiff, na.rm=T) >= 1)
-  return(t)
-}
-
 ROKU.post_filter <- function(r, ...) {
+  ROKU.post_filter.index <- function(df, minDiff=15) {
+    t <- which(rowSums(df > minDiff, na.rm=T) >= 1)
+    return(t)
+  }
+  
   t <- ROKU.post_filter.index(r$outliers, ...)
   post <- list(entropy=r$entropy[t],
                entropy.pct=r$entropy.pct[t],
@@ -77,6 +83,15 @@ ROKU.post_filter <- function(r, ...) {
   return(post)
 }
 
+#' Convert ROKU results as data frame
+#' 
+#' Take ROKU list and convert to data frame
+#' 
+#' @param r
+#' @param meta
+#' @return a data frame
+#' @export
+#' @seealso \code{\link{ROKU}}
 ROKU.as.df <- function(r, meta=NULL) {
   df <- data.frame(Entropy=r$entropy,
                    Entropy.Normalized=r$entropy.pct,

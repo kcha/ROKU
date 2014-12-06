@@ -1,3 +1,11 @@
+#' U statistic
+#' 
+#' @param x
+#' @param outliers
+#' @param epsilon
+#' @export
+#' @return U statistic (numeric)
+#' @seealso \code{\link{find_tissue_outliers}}
 u_statistic <- function(x, outliers, epsilon=1e-04) {
   stopifnot(length(outliers) == length(x))
   non.outliers <- outliers == 0
