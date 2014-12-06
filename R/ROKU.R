@@ -92,7 +92,7 @@ ROKU.post_filter <- function(r, ...) {
 #' @return a data frame
 #' @export
 #' @seealso \code{\link{ROKU}}
-ROKU.as.df <- function(r, meta=NULL) {
+ROKU_as_df <- function(r, meta=NULL) {
   df <- data.frame(Entropy=r$entropy,
                    Entropy.Normalized=r$entropy.pct,
                    r$outliers)
