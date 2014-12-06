@@ -36,4 +36,7 @@ General steps:
  \item Assign tissues detected as outliers using AIC
  }
 }
+\examples{
+rk <- ROKU(psidata)
+}
 

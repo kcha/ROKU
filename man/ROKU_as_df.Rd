@@ -6,15 +6,21 @@
 ROKU_as_df(r, meta = NULL)
 }
 \arguments{
-\item{r}{}
+\item{r}{a list returned by \code{\link{ROKU}}}
 
-\item{meta}{}
+\item{meta}{a optional data frame of additional metadata (column-wise) that will
+be appended in front of the resulting data frame}
 }
 \value{
 a data frame
 }
 \description{
 Take ROKU list and convert to data frame
+}
+\examples{
+rk <- ROKU(psidata)
+df <- ROKU_as_df
+head(df)
 }
 \seealso{
 \code{\link{ROKU}}

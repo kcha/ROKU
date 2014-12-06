@@ -23,6 +23,8 @@
 #' @importFrom parallel mclapply
 #' @import entropy
 #' @export
+#' @examples
+#' rk <- ROKU(psidata)
 ROKU <- function(m, cores=1) {
   # pre-process
   m <- as.matrix(m)
@@ -37,7 +39,7 @@ ROKU <- function(m, cores=1) {
   H.pct <- H / log2(rowSums(!is.na(m)))
  
   # find outliers
-  O <- mclapply(x, function(i) find_tissue_outliers(abs(i)), mc.cores=cores)
+  O <- mclapply(1:nrow(m), function(i) find_tissue_outliers(m[i,]), mc.cores=cores)
   M <- do.call("rbind", lapply(O, "[[", 1))
   M2 <- do.call("rbind", lapply(O, "[[", 2))
   dimnames(M) <- list(rownames(m), colnames(m))
@@ -51,14 +53,15 @@ ROKU <- function(m, cores=1) {
   return(list(entropy=H, entropy.pct=H.pct, outliers=v))
 }
 
+# Alternative method for running ROKU in parallel
 ROKU.2 <- function(m, cores) {
 #   m <- as.matrix(m)
   ROKU.run <- function(x) {
     #   x <- t(x)
     x.prime <- preprocess_with_tukey(x)
     H <- entropy(x.prime[!is.na(x.prime)], unit="log2")
-    O <- find_tissue_outliers(t(x))
-    values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), O*x.prime)
+    O <- find_tissue_outliers(x)
+    values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), t(O[["Model"]]*x.prime))
     return(values)
   }  
   
@@ -87,11 +90,16 @@ ROKU.post_filter <- function(r, ...) {
 #' 
 #' Take ROKU list and convert to data frame
 #' 
-#' @param r
-#' @param meta
+#' @param r a list returned by \code{\link{ROKU}}
+#' @param meta a optional data frame of additional metadata (column-wise) that will
+#' be appended in front of the resulting data frame 
 #' @return a data frame
 #' @export
 #' @seealso \code{\link{ROKU}}
+#' @examples
+#' rk <- ROKU(psidata)
+#' df <- ROKU_as_df
+#' head(df)
 ROKU_as_df <- function(r, meta=NULL) {
   df <- data.frame(Entropy=r$entropy,
                    Entropy.Normalized=r$entropy.pct,
