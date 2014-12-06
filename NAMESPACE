@@ -2,6 +2,7 @@
 
 export(ROKU)
 export(ROKU_as_df)
+export(build_outlier_combinations)
 export(filter_outliers)
 export(find_tissue_outliers)
 export(preprocess_with_tukey)

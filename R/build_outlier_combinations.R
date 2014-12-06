@@ -10,6 +10,7 @@
 #'  @seealso \code{\link{find_tissue_outliers}}
 #'  @return a list of binary vectors. Each vector represents an outlier model 
 #'  where outliers are denoted by 1, otherwise 0.
+#'  @export
 build_outlier_combinations <- function(z) {
   obs <- list()
   n <- length(z)
