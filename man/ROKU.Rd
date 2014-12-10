@@ -14,7 +14,7 @@ and \emph{m} is the number of samples/tissues}
 \item{cores}{number of cores to use for parallel processing. Default is 1.}
 }
 \value{
-List:
+A list containing the elements:
 \describe{
  \item{Entropy}{Vector of Shannon entropy for each gene}
  \item{Entropy.Normalized}{Vector of Shannon entropy normalized by all entropies}
