@@ -3,15 +3,14 @@
 #' The third step in ROKU algorithm. Identify tissue-specific outliers.
 #' 
 #' @details
-#' See the \href{http://www.biomedcentral.com/1471-2105/7/294#sec4}{Methods} from the manuscript for more details.
+#' See the \href{http://www.biomedcentral.com/1471-2105/7/294#sec4}{Methods} from 
+#' the manuscript for more details.
 #' 
 #' Identifiers over- or under-expressed tissue-specific genes using
-#' the formula from \href{http://www.ncbi.nlm.nih.gov/pubmed/12499447}{Kadota et al. (2003)}
-#' 
-#' \deqn{U = n\log{\sigma} + \sqrt{2} \times s \times \frac{\log{n!}}{n}}
-#' 
-#' where \emph{n} and \emph{s} denote the numbers of non-outlier and outlier candidates, and \eqn{\sigma} denotes the standard deviation of the observations of the \emph{n} non-outlier candidates.
-#' 
+#' the U statistic from 
+#' \href{http://www.ncbi.nlm.nih.gov/pubmed/12499447}{Kadota et al. (2003)}. See
+#' \code{\link{u_statistic}} for more details.
+#'
 #' The combination of outliers that where \emph{U} is minimized is returned.
 #' 
 #' If no outliers are found, then k-means clustering is performed to cluster
@@ -20,6 +19,14 @@
 #' @param x a vector of expression values
 #' @param epsilon a very small number for offsetting zero values
 #' @return a binary vector representing the ouliers (1) and non-outliers (0)
+#' @references
+#' Kadota et al (2006). ROKU: a novel method for identification of tissue-specific genes. BMC Genomics, 7:294. 
+#' \url{http://www.biomedcentral.com/1471-2105/7/294}
+#' 
+#' Kadota et al (2003). Detection of genes with tissue-specific expression patterns using Akaike's information criterion procedure. Physiol Genomics, 12(3):251-9. \url{http://www.ncbi.nlm.nih.gov/pubmed/12499447}
+#' @seealso
+#' \code{\link{u_statistic}} for calculation of \emph{U}
+#' \code{\link{build_outlier_combinations}} for building all possible outlier models
 #' @export
 find_tissue_outliers <- function(x, epsilon=1e-04) {
   # Step 3 of ROKU - finding tissue outliers

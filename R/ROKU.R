@@ -7,7 +7,7 @@
 #' 
 #' General steps:
 #' \enumerate{
-#'  \item Process each vector: x -> x' using Tukey Biweight
+#'  \item Process each vector: x -> x' using Tukey biweight
 #'  \item Calculate entropy: H(x')
 #'  \item Assign tissues detected as outliers using AIC
 #'  }
@@ -16,13 +16,17 @@
 #' @param cores number of cores to use for parallel processing. Default is 1. 
 #' @return List:
 #' \itemize{
-#'  \item{entropy}{} 
-#'  \item{entropy.pct}{}
-#'  \item{outliers}{}
+#'  \item{Entropy}{} 
+#'  \item{Entropy.Normalized}{}
+#'  \item{Outlier.Detection.Method}{}
+#'  \item{Outliers}{}
 #' }
 #' @importFrom parallel mclapply
 #' @import entropy
 #' @export
+#' @references
+#' Kadota et al (2006). ROKU: a novel method for identification of tissue-specific genes. BMC Genomics, 7:294. 
+#' \url{http://www.biomedcentral.com/1471-2105/7/294}
 #' @examples
 #' rk <- ROKU(psidata)
 ROKU <- function(m, cores=1) {
