@@ -46,16 +46,19 @@ ROKU <- function(m, cores=1) {
   # find outliers
   O <- mclapply(1:nrow(m), function(i) find_tissue_outliers(m[i,]), mc.cores=cores)
   M <- do.call("rbind", lapply(O, "[[", 1))
-  M2 <- do.call("rbind", lapply(O, "[[", 2))
+  M2 <- sapply(O, "[[", 2)
+  names(M2) <- rownames(m)
   dimnames(M) <- list(rownames(m), colnames(m))
   
   x.prime <- do.call("rbind", x.prime)
   dimnames(x.prime) <- list(rownames(m), colnames(m))
 
   v <- M*x.prime
-  v <- data.frame(v, Outlier.Detection.Method=M2)
+  v <- data.frame(v)
   
-  return(list(entropy=H, entropy.pct=H.pct, outliers=v))
+  return(list(Entropy=H, Entropy.Normalized=H.pct, 
+              Outlier.Detection.Method=M2,
+              Outliers=v))
 }
 
 # Alternative method for running ROKU in parallel
@@ -64,9 +67,11 @@ ROKU.2 <- function(m, cores) {
   ROKU.run <- function(x) {
     #   x <- t(x)
     x.prime <- preprocess_with_tukey(x)
-    H <- entropy(x.prime[!is.na(x.prime)], unit="log2")
+    H <- entropy(abs(x.prime[!is.na(x.prime)]), unit="log2")
     O <- find_tissue_outliers(x)
-    values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), t(O[["Model"]]*x.prime))
+    values <- cbind(Entropy=H, Entropy.Normalized=H/log2(sum(!is.na(x))), 
+                    Outlier.Detection.Method=O$Outlier.Detection.Method,
+                    t(O$Model*x.prime))
     return(values)
   }  
   
@@ -75,7 +80,7 @@ ROKU.2 <- function(m, cores) {
 #   dimnames(R) <- list(rownames(m), 
 #                       c("Entropy", "Entropy.Normalized", colnames(m)))
   
-  return(R)
+  return(as.data.frame(R))
 }
 
 
@@ -95,9 +100,10 @@ ROKU.2 <- function(m, cores) {
 #' df <- ROKU_as_df
 #' head(df)
 ROKU_as_df <- function(r, meta=NULL) {
-  df <- data.frame(Entropy=r$entropy,
-                   Entropy.Normalized=r$entropy.pct,
-                   r$outliers)
+  df <- data.frame(Entropy=r$Entropy,
+                   Entropy.Normalized=r$Entropy.Normalized,
+                   Outlier.Detection.Method=r$Outlier.Detection.Method,
+                   r$Outliers)
   if (!is.null(meta)) {
     if (nrow(meta)!=nrow(r$outliers)) {
       stop("Number of rows don't match")
