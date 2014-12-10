@@ -15,7 +15,7 @@ and \emph{m} is the number of samples/tissues}
 }
 \value{
 List:
-\itemize{
+\describe{
  \item{Entropy}{Vector of Shannon entropy for each gene}
  \item{Entropy.Normalized}{Vector of Shannon entropy normalized by all entropies}
  \item{Outlier.Detection.Method}{Method used to detect outliers: AIC, or KM}

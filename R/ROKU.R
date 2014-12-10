@@ -14,8 +14,8 @@
 #' @param m a \emph{n} by \emph{m} data frame where \emph{n} is the number of genes
 #' and \emph{m} is the number of samples/tissues
 #' @param cores number of cores to use for parallel processing. Default is 1. 
-#' @return List:
-#' \itemize{
+#' @return A list containing the elements:
+#' \describe{
 #'  \item{Entropy}{Vector of Shannon entropy for each gene} 
 #'  \item{Entropy.Normalized}{Vector of Shannon entropy normalized by all entropies}
 #'  \item{Outlier.Detection.Method}{Method used to detect outliers: AIC, or KM}
