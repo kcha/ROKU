@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
+library(ROKU)
 ```
 
 # ROKU
@@ -38,15 +39,15 @@ biocLite("affy")
 ROKU requires as input a data frame of expression values where each row is a gene
 and each column is a tissue/sample. For example: 
 
-```r
+```{r}
 head(psidata)
 ```
 
 To find tissue-specific genes:
-```r
+```{r}
 rk <- ROKU(psidata)
 df <- ROKU_as_df(rk)
 head(df)
 ```
 
-Genes with a non-zero U statistic are considered outliers.
+Genes with a non-zero values are considered outliers.
