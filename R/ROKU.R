@@ -16,10 +16,11 @@
 #' @param cores number of cores to use for parallel processing. Default is 1. 
 #' @return List:
 #' \itemize{
-#'  \item{Entropy}{} 
-#'  \item{Entropy.Normalized}{}
-#'  \item{Outlier.Detection.Method}{}
-#'  \item{Outliers}{}
+#'  \item{Entropy}{Vector of Shannon entropy for each gene} 
+#'  \item{Entropy.Normalized}{Vector of Shannon entropy normalized by all entropies}
+#'  \item{Outlier.Detection.Method}{Method used to detect outliers: AIC, or KM}
+#'  \item{Outliers}{Data frame with dimensions similar to \code{m}. Non-zero values
+#'  indicate predicted outliers.}
 #' }
 #' @importFrom parallel mclapply
 #' @import entropy
