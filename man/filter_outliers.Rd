@@ -3,9 +3,24 @@
 \alias{filter_outliers}
 \title{ROKU post filtering}
 \usage{
-filter_outliers(r, ...)
+filter_outliers(r, min_diff = 15)
+}
+\arguments{
+\item{r}{List outputted by \code{\link{ROKU}}}
+
+\item{min_diff}{Minimum entropy to filter outliers}
+}
+\value{
+List like \code{r}, but filtered.
 }
 \description{
-ROKU post filtering
+After running \code{\link{ROKU}}, filter out genes with outliers that have
+Shannon Entropy greater than \code{min_diff}.
+}
+\examples{
+\dontrun{
+rk <- ROKU(psidata)
+candidates <- filter_outliers(rk, min_diff = 15)
+}
 }
 
