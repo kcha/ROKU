@@ -1,12 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-    ## 
-    ## Attaching package: 'ROKU'
-    ## 
-    ## The following object is masked _by_ '.GlobalEnv':
-    ## 
-    ##     psidata
 
 ROKU
 ====
