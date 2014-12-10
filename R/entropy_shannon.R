@@ -1,6 +1,3 @@
-#' Shannon Entropy
-#' 
-#' @details Currently not being used
 entropy_shannon <- function(x, unit = c("log", "log2", "log10")) {
   epsilon <- 1e-08
   unit <- match.arg(unit)
