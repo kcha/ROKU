@@ -16,9 +16,11 @@ and \emph{m} is the number of samples/tissues}
 \value{
 List:
 \itemize{
- \item{entropy}{}
- \item{entropy.pct}{}
- \item{outliers}{}
+ \item{Entropy}{Vector of Shannon entropy for each gene}
+ \item{Entropy.Normalized}{Vector of Shannon entropy normalized by all entropies}
+ \item{Outlier.Detection.Method}{Method used to detect outliers: AIC, or KM}
+ \item{Outliers}{Data frame with dimensions similar to \code{m}. Non-zero values
+ indicate predicted outliers.}
 }
 }
 \description{
@@ -31,12 +33,16 @@ See the \href{http://www.biomedcentral.com/1471-2105/7/294#sec4}{Methods} from t
 
 General steps:
 \enumerate{
- \item Process each vector: x -> x' using Tukey Biweight
+ \item Process each vector: x -> x' using Tukey biweight
  \item Calculate entropy: H(x')
  \item Assign tissues detected as outliers using AIC
  }
 }
 \examples{
 rk <- ROKU(psidata)
+}
+\references{
+Kadota et al (2006). ROKU: a novel method for identification of tissue-specific genes. BMC Genomics, 7:294.
+\url{http://www.biomedcentral.com/1471-2105/7/294}
 }
 

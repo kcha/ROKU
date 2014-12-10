@@ -16,4 +16,8 @@ A transformed vector of length \emph{m}
 The first step in ROKU algorithm. Normalize the expression data using Tukey's
 biweight. Values with \code{NA} are excluded.
 }
+\references{
+Kadota et al (2006). ROKU: a novel method for identification of tissue-specific genes. BMC Genomics, 7:294.
+\url{http://www.biomedcentral.com/1471-2105/7/294}
+}
 
