@@ -6,7 +6,7 @@ Description: An R implementation of ROKU, based on the method described in
     Kadota et al., BMC Bioinformatics, 2006.
 Depends:
     R (>= 3.0.1)
-License: What license is it under?
+License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/kcha/ROKU
 BugReports: https://github.com/kcha/ROKU/issues
