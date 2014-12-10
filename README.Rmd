@@ -32,3 +32,21 @@ ROKU uses the `affy` package, which can be installed from Bioconductor:
 source("http://bioconductor.org/biocLite.R")
 biocLite("affy")
 ```
+
+## Usage
+
+ROKU requires as input a data frame of expression values where each row is a gene
+and each column is a tissue/sample. For example: 
+
+```r
+head(psidata)
+```
+
+To find tissue-specific genes:
+```r
+rk <- ROKU(psidata)
+df <- ROKU_as_df(rk)
+head(df)
+```
+
+Genes with a non-zero U statistic are considered outliers.
