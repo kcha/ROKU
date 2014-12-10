@@ -23,7 +23,7 @@
 #'  indicate predicted outliers.}
 #' }
 #' @importFrom parallel mclapply
-#' @import entropy
+#' @importFrom entropy entropy
 #' @export
 #' @references
 #' Kadota et al (2006). ROKU: a novel method for identification of tissue-specific genes. BMC Genomics, 7:294. 
