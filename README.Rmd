@@ -25,6 +25,13 @@ Kadota, K., Ye, J., Nakai, Y., Terada, T., Shimizu, K., 2006. [ROKU: a novel
 method for identification of tissue-specific
 genes](http://www.biomedcentral.com/1471-2105/7/294). BMC Bioinformatics 7, 294.
 
+**Disclaimer**
+
+This package was written as an personal exercise to practice implementing a 
+published algorithm in R, and to learn now to create an R package. 
+While some effort has been made to ensure accuracy of the algorithm, the package
+has not been thoroughly tested and documented. Use at your own risk (see [LICENSE](LICENSE)).  
+
 ## Dependencies
 
 ROKU uses the `affy` package, which can be installed from Bioconductor:
@@ -32,6 +39,13 @@ ROKU uses the `affy` package, which can be installed from Bioconductor:
 ```{r eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
 biocLite("affy")
+```
+
+## Installation
+
+```r
+install.packages("devtools")
+devtools::install_github("kcha/ROKU")
 ```
 
 ## Usage

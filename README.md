@@ -1,7 +1,4 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
-
 ROKU
 ====
 
@@ -11,14 +8,26 @@ Details of the method are described in:
 
 Kadota, K., Ye, J., Nakai, Y., Terada, T., Shimizu, K., 2006. [ROKU: a novel method for identification of tissue-specific genes](http://www.biomedcentral.com/1471-2105/7/294). BMC Bioinformatics 7, 294.
 
+**Disclaimer**
+
+This package was written as an personal exercise to practice implementing a published algorithm in R, and to learn now to create an R package. While some effort has been made to ensure accuracy of the algorithm, the package has not been thoroughly tested and documented. Use at your own risk (see [LICENSE](LICENSE)).
+
 Dependencies
 ------------
 
 ROKU uses the `affy` package, which can be installed from Bioconductor:
 
-``` {.r}
+``` r
 source("http://bioconductor.org/biocLite.R")
 biocLite("affy")
+```
+
+Installation
+------------
+
+``` r
+install.packages("devtools")
+devtools::install_github("kcha/ROKU")
 ```
 
 Usage
@@ -26,7 +35,7 @@ Usage
 
 ROKU requires as input a data frame of expression values where each row is a gene and each column is a tissue/sample. For example:
 
-``` {.r}
+``` r
 head(psidata)
 #>      Neural1    Neural2   Neural3      ESC1       ESC2     Kidney
 #> A  27.125019  27.106195  25.32516  94.19426  98.596466  91.348439
@@ -46,7 +55,7 @@ head(psidata)
 
 To find tissue-specific genes:
 
-``` {.r}
+``` r
 rk <- ROKU(psidata)
 df <- ROKU_as_df(rk)
 head(df)
